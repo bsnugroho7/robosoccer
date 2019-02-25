@@ -30,10 +30,10 @@ void loop() {
 }
   //controll motor 1
   void motor_M1(int speed){
-    if(speed == 0){
+    if(speed == 255){
       analogWrite(directionPin_M1, speed); //speed = 0, stop
     }
-    if(speed > 0){
+    if(speed >= 0){
       digitalWrite(directionPin_M1, HIGH);//move forward
       analogWrite(speedPin_M1, speed);
     }
@@ -44,10 +44,10 @@ void loop() {
   }
   //controll motor 2
   void motor_M2(int speed){
-    if(speed == 0){
+    if(speed == 255){
       analogWrite(directionPin_M2, speed); //speed = 0, stop
     }
-    if(speed > 0){
+    if(speed >= 0){
       digitalWrite(directionPin_M2, HIGH);//move forward
       analogWrite(speedPin_M2, speed);
     }
@@ -107,19 +107,19 @@ void loop() {
   void BLEMode(){
     
     if(buttonState[1] == true){
-      motorControll(150, 150); //move forward
+      motorControll(25, 25); //move forward
       Serial.println("Maju");
     }
     else if(buttonState[2] == true){
-      motorControll(-150, -150); //move backward
+      motorControll(-25, -25); //move backward
       Serial.println("Mundur");
     }
     else if(buttonState[3] == true){
-      motorControll(200, -200); //move right
+      motorControll(175, -175); //move right
       Serial.println("Kanan");
     }
     else if(buttonState[4] == true){
-      motorControll(-200, 200); //move left
+      motorControll(-175, 175); //move left
       Serial.println("Kiri");
     }
     else if(buttonState[0] == true){
