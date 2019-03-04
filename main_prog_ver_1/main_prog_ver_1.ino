@@ -2,6 +2,8 @@
 #define   speedPin_M2     6//M2 speed controll
 #define   directionPin_M1 4//M1 direction controll
 #define   directionPin_M2 7//M2 direction controll
+#define   LED_PWM1        11//LED PWM1
+#define   LED_PWM2        12//LED PWM2
 
 //Define global variables, save the bluetooth
 int input;
@@ -13,7 +15,11 @@ void setup() {
   pinMode(speedPin_M2, OUTPUT);
   pinMode(directionPin_M1, OUTPUT);
   pinMode(directionPin_M2, OUTPUT);
+  pinMode(LED_PWM1, OUTPUT);
+  pinMode(LED_PWM2, OUTPUT);
 
+  digitalWrite(LED_PWM1, LOW);
+  digitalWrite(LED_PWM2, LOW);
   digitalWrite(speedPin_M1, 0);
   digitalWrite(directionPin_M1, LOW);
   digitalWrite(speedPin_M2, 0);
@@ -32,13 +38,16 @@ void loop() {
   void motor_M1(int speed){
     if(speed == 255){
       analogWrite(directionPin_M1, speed); //speed = 0, stop
+      digitalWrite(LED_PWM1, LOW);//Indicator Motor1 Off
     }
     if(speed >= 0){
       digitalWrite(directionPin_M1, HIGH);//move forward
+      digitalWrite(LED_PWM1, HIGH);//Indicator Motor1 On
       analogWrite(speedPin_M1, speed);
     }
     else if(speed < 0){
       digitalWrite(directionPin_M1, LOW); //move backward
+      digitalWrite(LED_PWM1, HIGH);//Indicator Motor1 On
       analogWrite(speedPin_M1, speed);
     }
   }
@@ -46,13 +55,16 @@ void loop() {
   void motor_M2(int speed){
     if(speed == 255){
       analogWrite(directionPin_M2, speed); //speed = 0, stop
+      digitalWrite(LED_PWM2, LOW);//Indicator Motor2 Off
     }
     if(speed >= 0){
       digitalWrite(directionPin_M2, HIGH);//move forward
+      digitalWrite(LED_PWM2, HIGH);//Indicator Motor2 On
       analogWrite(speedPin_M2, speed);
     }
     else if(speed < 0){
       digitalWrite(directionPin_M2, LOW); //move backward
+      digitalWrite(LED_PWM2, HIGH);//Indicator Motor2 On
       analogWrite(speedPin_M2, speed);
     }
   }
@@ -94,12 +106,6 @@ void loop() {
         buttonState[2] = false;
         buttonState[3] = false;break; 
       }
-
-      /*if(input == 4){
-        Status = 1;
-      } else if(input == 5){
-        Status = 0;
-      } */
     } 
   }
 
@@ -107,11 +113,11 @@ void loop() {
   void BLEMode(){
     
     if(buttonState[1] == true){
-      motorControll(25, 25); //move forward
+      motorControll(0, 0); //move forward
       Serial.println("Maju");
     }
     else if(buttonState[2] == true){
-      motorControll(-25, -25); //move backward
+      motorControll(-50, -50); //move backward
       Serial.println("Mundur");
     }
     else if(buttonState[3] == true){
